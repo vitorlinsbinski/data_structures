@@ -41,15 +41,16 @@ void Append(struct Array *arr, int value) {
 
 }
 
+
 void Insert(struct Array *arr, int index, int value) {
-    if(index >= 0 && arr->length < arr->size) {
+    if(index >= 0 && index <= arr->length) {
         for(int j = arr->length; j >= index; j--) {
             arr->A[j + 1] = arr->A[j];
         }
 
         arr->A[index] = value;
 
-        arr->length = arr->length + 1;
+        arr->length++;
 
         return;
     } else {
@@ -403,113 +404,54 @@ struct Array differenceArrays(struct Array *x, struct Array *y) {
 };
 
 int main() {
-    struct Array arr;
-    struct Array arr2;
-    int n, i;
-    cout << "Enter size of an array" << endl;
-    scanf("%d", &arr.size);
-    arr.A = new int[arr.size];
-    arr.length = 0;
+    struct Array arr1;
+    int ch;
+    int x, index;
 
-    cout << "Enter number of numbers: " << endl;
-    scanf("%d", &n);
+    cout << "Enter size of array: ";
+    scanf("%d", &arr1.size);
+    arr1.A = new int[arr1.size];
+    arr1.length = 0;
 
-    while(n > arr.size) {
-        cout << "Your must not type number of elements greater than the array size. Please, type again" << endl;
-        scanf("%d", &n);
-    }
-    arr.length = n;
+    cout << endl;
 
-    cout << "Enter all elements" << endl;
-    for(i = 0; i < n; i++) {
-        scanf("%d", &arr.A[i]);
-    }
+    do {
+        cout << "Menu" << endl;
+        cout << "1. Insert" << endl;
+        cout << "2. Delete" << endl;
+        cout << "3. Search" << endl;
+        cout << "4. Sum" << endl;
+        cout << "5. Display" << endl;
+        cout << "6. Exit" << endl;
 
+        cout << "***** Enter your choice: ";
+        scanf("%d", &ch);
 
-    Display(&arr);
+        switch(ch) {
+            case 1:
+                cout << "Enter an element and index: ";
+                scanf("%d%d",&x,&index);
+                Insert(&arr1, index, x);
+                break;
+            case 2:
+                cout << "Enter index ";
+                scanf("%d", &index);
+                x = Remove(&arr1, index);
+                cout << "Deleted element is: " << x << endl;
+                break;
+            case 3:
+                scanf("%d",&x);
+                index = LinearSearch(&arr1,x);
+                printf("Element index %d",index);
+                break;
+            case 4:
+                cout << "Sum is: " << sum(&arr1, arr1.length - 1) << endl;
+                break;
+            case 5:
+                Display(&arr1);
 
-    cout << "Enter size of an array" << endl;
-    scanf("%d", &arr2.size);
-    arr2.A = new int[arr2.size];
-    arr2.length = 0;
-
-    cout << "Enter number of numbers: " << endl;
-    scanf("%d", &n);
-
-    while(n > arr2.size) {
-        cout << "Your must not type number of elements greater than the array size. Please, type again" << endl;
-        scanf("%d", &n);
-    }
-    arr2.length = n;
-
-    cout << "Enter all elements" << endl;
-    for(i = 0; i < n; i++) {
-        scanf("%d", &arr2.A[i]);
-    }
-
-
-    Display(&arr2);
-
-    //cout << "Append Operation: " << endl;
-    //Append(&arr, 123);
-    //Display(&arr);
-
-    //cout << "Insert Operation: " << endl;
-    //Insert(&arr, 0, 17);
-    //Display(&arr);
-
-    //cout << "Remove Operation: " << endl;
-    //cout << Remove(&arr, 5) << endl;
-    //Display(&arr);
-
-    //cout << "Linear Search: " << endl;
-    //int indexSearch = LinearSearch(&arr, 6);
-    //if(indexSearch >= 0) {
-    //    cout << "Element was found in index: " << indexSearch << endl;
-    //} else {
-    //    cout << "Element was not found..." << endl;
-    //}
-
-    //Display(&arr);
-
-    //cout << max(&arr) << endl;
-    //cout << min(&arr) << endl;
-    //cout << sum(&arr, arr.length - 1) << endl;
-    //cout << avg(&arr) << endl;
-
-    //reverseArray(&arr);
-    //Display(&arr);
-
-    //reverseArrayBySwap(&arr);
-    //Display(&arr);
-
-    //leftShiftAndRotate(&arr);
-    //Display(&arr);
-
-    //checkArrayIsSorted(&arr);
-
-    //insertInAnOrderedArray(&arr, 5);
-
-    //Display(&arr);
-
-    //interchangePositivesAndNegatives(&arr);
-    //Display(&arr);
-
-    //merge(&arr, &arr2);
-    //Display(&arr);
-
-    struct Array unionResult = unionArrays(&arr, &arr2);
-
-    Display(&unionResult);
-
-    struct Array intersectionResult = intersectionArrays(&arr, &arr2);
-
-    Display(&intersectionResult);
-
-    struct Array differenceResult = differenceArrays(&arr, &arr2);
-
-    Display(&differenceResult);
-
+        }
+    } while(ch < 6);
 
     return 0;
 }
