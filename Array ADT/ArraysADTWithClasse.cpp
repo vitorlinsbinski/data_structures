@@ -2,26 +2,28 @@
 
 using namespace std;
 
+template<class T>
+
 class Array {
 private:
-    int *A;
+    T* A;
     int size;
     int length;
 public:
     Array(int _size) {
         size = _size;
         length = 0;
-        A = new int[size];
+        A = new T[size];
     }
 
-    void swap(int *x, int *y) {
-        int temp;
+    void swap(T *x, T *y) {
+        T temp;
         temp = *x;
         *x = *y;
         *y = temp;
     }
 
-    void Append(int value) {
+    void Append(T value) {
         if(length < size) {
             A[length] = value;
             length++;
@@ -33,7 +35,7 @@ public:
         }
     }
 
-    void Insert(int index, int value) {
+    void Insert(int index, T value) {
         if(index >= 0 && length < size) {
             for(int j = length; j >= index; j--) {
                 A[j + 1] = A[j];
@@ -50,8 +52,8 @@ public:
         }
     }
 
-    int Remove(int index) {
-        int x = 0;
+    T Remove(int index) {
+        T x = 0;
 
         if(length > 0 && index >= 0 && index < length) {
             x = A[index];
@@ -66,7 +68,7 @@ public:
         return -1;
     }
 
-    int LinearSearch(int key) {
+    T LinearSearch(T key) {
         if(length < 0) {
             cout << "Array has no elements..." << endl;
             return -1;
@@ -94,20 +96,20 @@ public:
         cout << endl;
     }
 
-    int get(int index) {
+    T get(int index) {
         if(index >= 0 && index < length) {
             return A[index];
         }
     }
 
-    int set(int index, int newValue) {
+    T set(int index, int newValue) {
         if(index >= 0 && index < length) {
             A[index] = newValue;
         }
     }
 
-    int max() {
-        int max = A[0];
+    T max() {
+        T max = A[0];
 
         for(int i = 1; i < length; i++) {
             if(A[i] > max) {
@@ -118,8 +120,8 @@ public:
         return max;
     }
 
-    int min() {
-        int min = A[0];
+    T min() {
+        T min = A[0];
 
         for(int i = 1; i <  length; i++) {
             if(min > A[i]) {
@@ -130,7 +132,8 @@ public:
         return min;
     }
 
-    int sum(int n) {
+
+    T sum(int n) {
         if(n >= 0) {
             return sum(n - 1) +  A[n];
         } else {
@@ -138,14 +141,15 @@ public:
         }
     }
 
+
     float avg() {
         return (float)sum(length)/length;
     }
 
     void reverseArray() {
-        int *B;
+        T *B;
 
-        B = new int[size];
+        B = new T[size];
 
         for(int i =  length; i > 0; i--) {
             B[ length - i] =  A[i - 1];
@@ -163,7 +167,7 @@ public:
     }
 
     void leftShiftAndRotate() {
-        int firstElement =  A[0];
+        T firstElement =  A[0];
 
         for(int i = 0; i <  length; i++) {
              A[i] =  A[i + 1];
@@ -172,7 +176,7 @@ public:
          A[ length - 1] = firstElement;
     }
 
-    bool checkArrayIsSorted(int *arr, int length) {
+    bool checkArrayIsSorted(T *arr, int length) {
         for (int i = 0; i < length - 1; i++) {
             if (arr[i] > arr[i + 1]) {
                 return false;
@@ -181,7 +185,7 @@ public:
         return true;
     }
 
-    int insertInAnOrderedArray(int num) {
+    T insertInAnOrderedArray(T num) {
         if( length ==  size) {
             cout << "Array is full!" << endl;
             return -1;
@@ -224,7 +228,7 @@ public:
 
             int *z;
 
-            z = new int[x.size + y.size];
+            z = new T[x.size + y.size];
 
             int k = 0;
 
@@ -256,7 +260,7 @@ public:
 
     }
 
-    bool searchRepeated(int key) {
+    bool searchRepeated(T key) {
         for(int i = 0; i <  length; i++) {
             if( A[i] == key) {
                 return true;
@@ -269,7 +273,7 @@ public:
     Array unionArrays(const Array y) {
         int size = length + y.length;
 
-        Array result(size);
+        Array<T> result(size);
 
         int i = 0, j = 0, k = 0;
 
@@ -301,7 +305,7 @@ public:
     Array intersectionArrays(const Array y) {
         int size = (length < y.length) ? length : y.length;
 
-        Array result(size);
+        Array<T> result(size);
 
         int i = 0, j = 0, k = 0;
 
@@ -325,7 +329,7 @@ public:
     Array differenceArrays(const Array y) {
         int size = length;
 
-        Array result(size);
+        Array<T> result(size);
 
         int i = 0, j = 0, k = 0;
 
@@ -349,32 +353,260 @@ public:
         return result;
     }
 
+    void getMissingElements() {
+        int diff = A[0];
+
+        for(int i = 0; i < length; i++) {
+            while(diff != A[i] - i) {
+                cout << i + diff << " ";
+                diff++;
+            }
+
+        }
+
+        cout <<  "are missing" << endl;
+    }
+
+    void getMissingElements2() {
+        T h = A[length - 1];
+
+        T hashArray[h] = {0};
+
+        for(int i = 0; i < length; i++) {
+            hashArray[A[i]]++;
+        }
+
+        for(int j = 0; j < h; j++) {
+            if(hashArray[j] == 0) {
+                cout << j << " ";
+            }
+        }
+
+        cout << "are missing" << endl;
+    }
+
+    void getDuplicateElementsSorted() {
+        int countDuplicated = 0;
+
+        for(int i = 0; i < length; i++) {
+            if(A[i] == A[i + 1]) {
+                countDuplicated = i + 1;
+                while(A[countDuplicated] == A[i]) {
+                    countDuplicated++;
+                }
+
+                cout << A[i] << " is appearing " << countDuplicated - i << " times" << endl;
+                i = countDuplicated - 1;
+            }
+        }
+    }
+
+    void getDuplicateSortedUsingHash() {
+        T h = A[length - 1];
+
+        T hashArray[h + 1] = {0};
+
+        for(int i = 0; i < length; i++) {
+            hashArray[A[i]] += 1;
+        }
+
+        for(int j = 0; j <= h; j++) {
+            if(hashArray[j] > 1) {
+                cout << j << " is appearing " << hashArray[j] << " times" << endl;
+            }
+        }
+    }
+
+    void getDuplicateUnsorted() {
+        int count = 1;
+
+        for(int i = 0; i < length; i++) {
+            if(A[i] != -1) {
+                for(int j = i + 1; j < length; j++) {
+                    if(A[i] == A[j]) {
+                        count++;
+                        A[j] = -1;
+                    }
+                }
+            }
+
+            if(count >  1) {
+                cout << A[i] << " is repeating " << count << " times" << endl;
+            }
+
+            count = 1;
+
+        }
+    }
+
+    void getDuplicateUnsortedByHash() {
+        T h = max();
+
+        T hashArray[h + 1] = {0};
+
+        for(int i = 0; i < length; i++) {
+            hashArray[A[i]] += 1;
+        }
+
+        for(int j = 0; j <= h; j++) {
+            if(hashArray[j] > 1) {
+                cout << j << " is repeating " << hashArray[j] << " times" << endl;
+            }
+        }
+    }
+
+    void getSumEqualTo(T k) {
+        for(int i = 0; i < length - 1; i++) {
+            for(int j = 0; j < length; j++) {
+                if(A[i] + A[j] == k) {
+                    printf("%d + %d = %d\n", A[i], A[j], k);
+                }
+            }
+        }
+    }
+
+    void getSumEqualToByHash(T k) {
+        T h = max();
+
+        T hashArray[h + 1] = {0};
+
+        int b = 0;
+
+        for(int i = 0; i < length; i++) {
+            b = k - A[i];
+
+            if(b >= 0 && hashArray[b] != 0) {
+                printf("%d + %d = %d\n", A[i], b, k);
+            }
+
+            hashArray[A[i]]++;
+        }
+    }
+
+    void getSumEqualToSorted(T k) {
+        int i = 0, j = length - 1;
+
+        while(i < j) {
+            if(A[i] + A[j] > k) {
+                j--;
+            } else if(A[i] + A[j] < k) {
+                i++;
+            } else {
+                printf("%d + %d = %d\n", A[i], A[j], k);
+                i++;
+                j--;
+            }
+        }
+    }
+
+    void getMaxAndMin() {
+        T max = A[0];
+        T min = A[0];
+
+        for(int i = 1; i < length; i++) {
+            if(A[i] < min) {
+                min = A[i];
+            } else if(A[i] > max) {
+                max = A[i];
+            }
+        }
+
+        cout << "max: " << max << endl;
+        cout << "min: " << min << endl;
+    }
+
+
     ~Array() {
         delete[] A;
     }
 };
 
 int main() {
-    Array arr1(10);
-    Array arr2(10);
+    Array<int> arr1(10);
+    Array<int> arr2(10);
+    Array<int> arr3(10);
+    Array<int> arr4(10);
+    Array<int> arr5(10);
 
-    arr1.Append(1);
-    arr1.Append(2);
-    arr1.Append(3);
-    arr1.Append(4);
-    arr1.Append(5);
+    arr1.Append(6);
+    arr1.Append(7);
+    arr1.Append(8);
+    arr1.Append(9);
+    arr1.Append(11);
+    arr1.Append(12);
+    arr1.Append(15);
+    arr1.Append(16);
+    arr1.Append(17);
+    arr1.Append(18);
+    arr1.Append(19);
 
-    arr2.Append(1);
-    arr2.Append(4);
-    arr2.Append(6);
+    arr2.Append(3);
     arr2.Append(7);
+    arr2.Append(4);
     arr2.Append(9);
+    arr2.Append(6);
+    arr2.Append(1);
+    arr2.Append(11);
+    arr2.Append(2);
+    arr2.Append(10);
+
+    arr3.Append(3);
+    arr3.Append(6);
+    arr3.Append(8);
+    arr3.Append(8);
+    arr3.Append(10);
+    arr3.Append(12);
+    arr3.Append(15);
+    arr3.Append(15);
+    arr3.Append(15);
+    arr3.Append(20);
+
+
+    arr4.Append(6);
+    arr4.Append(3);
+    arr4.Append(8);
+    arr4.Append(10);
+    arr4.Append(16);
+    arr4.Append(7);
+    arr4.Append(5);
+    arr4.Append(2);
+    arr4.Append(9);
+    arr4.Append(14);
+
+    arr5.Append(1);
+    arr5.Append(3);
+    arr5.Append(4);
+    arr5.Append(5);
+    arr5.Append(6);
+    arr5.Append(8);
+    arr5.Append(9);
+    arr5.Append(10);
+    arr5.Append(12);
+    arr5.Append(14);
 
     arr1.Display();
-    arr2.Display();
+    arr1.getMissingElements();
 
-    Array result = arr1.unionArrays(arr2);
-    result.Display();
+    arr1.Display();
+    arr2.getMissingElements2();
+
+    arr3.Display();
+    arr3.getDuplicateSortedUsingHash();
+    //arr2.Display();
+
+    arr4.Display();
+    arr4.getDuplicateUnsortedByHash();
+
+    arr4.getSumEqualToByHash(10);
+
+    arr5.Display();
+    arr5.getSumEqualToSorted(10);
+    arr5.getMaxAndMin();
+
+    //cout << "Sum of the elements of arr1 is: " << arr1.sum(9) << endl;
+
+    //Array<int> result = arr1.unionArrays(arr2);
+    //result.Display();
 
     return 0;
 }
