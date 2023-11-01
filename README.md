@@ -21,4 +21,4 @@ This is a repository to store all of my studies about Data Structures and Algori
 - Graphs
 - Asymptotic Notations
 
-  <span>I'm using C++ to learn this data strucutres and watching to the course "Mastering Data Structures & Algorithms using C and C+" by Abdul Bari.</span>
+  <span>I'm using C++ to learn this data strucutres and watching to the course "Mastering Data Structures & Algorithms using C and C+", by Abdul Bari.</span>
